@@ -6,7 +6,7 @@ __pycache__/
 *$py.class
 
 # fits files
-*.fits
+#*.fits
 
 # C extensions
 *.so
