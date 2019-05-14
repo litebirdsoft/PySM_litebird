@@ -402,6 +402,9 @@ class Instrument(object):
                 full_map = map_array
             else:
                 full_map = build_full_map(self.pixel_indices, map_array, self.Nside)
+            shape = full_map.shape
+            if len(shape)==2:
+                full_map = full_map.reshape(self.Beams.shape[0], shape[0], shape[1])
             print(full_map.shape)
             smoothed_map_array = np.array([hp.smoothing(m, fwhm = np.pi / 180. * b / 60., verbose = False) for (m, b) in zip(full_map, self.Beams)])
             if self.pixel_indices is None:
