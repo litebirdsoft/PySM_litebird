@@ -8,7 +8,7 @@ LB_data_dir = os.path.join(os.path.dirname(__file__), 'lb_template')
 LB_template = lambda x: os.path.join(LB_data_dir, x)
 
 def models(key, nside, pixel_indices=None, mpi_comm=None, cmb_in=None):
-    if key=='LBc1':
+    if key=='LBc0':
         model = eval(key)(nside, pixel_indices=pixel_indices, mpi_comm=mpi_comm, cmb_in=cmb_in)
     else:
         model = eval(key)(nside, pixel_indices=pixel_indices, mpi_comm=mpi_comm)
@@ -101,10 +101,10 @@ def LBa0(nside, pixel_indices=None, mpi_comm=None):
 
 
 def LBc0(nside, pixel_indices=None, mpi_comm=None, cmb_in=None):
-    if cmb_in==None:
-        cmb_map = LB_template('cmb_lens_Planck2018_r0.fits')
-    else:
+    if cmb_in:
         cmb_map = cmb_in
+    else:
+        cmb_map = LB_template('cmb_lens_Planck2018_r0.fits')
     return [{
         'model': 'pre_computed',
         'A_I': read_map(cmb_map, nside, field=0, pixel_indices=pixel_indices, mpi_comm=mpi_comm),
